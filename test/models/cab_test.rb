@@ -35,4 +35,9 @@ describe Cab do
     @cab.status = 'abdc'
     assert !@cab.save
   end
+
+  it 'should not save when cab registration number is not unique' do
+    @cab.save
+    refute build(:cab, registration_number: @cab.registration_number).save
+  end
 end
