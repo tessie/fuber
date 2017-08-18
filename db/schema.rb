@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170818125327) do
+ActiveRecord::Schema.define(version: 20170818134029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,4 +35,22 @@ ActiveRecord::Schema.define(version: 20170818125327) do
     t.float "lat", null: false
   end
 
+  create_table "trips", force: :cascade do |t|
+    t.float "starting_lat", null: false
+    t.float "starting_long", null: false
+    t.float "ending_lat"
+    t.float "ending_long"
+    t.datetime "start_time"
+    t.datetime "end_date"
+    t.float "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "customer_id"
+    t.bigint "cab_id"
+    t.index ["cab_id"], name: "index_trips_on_cab_id"
+    t.index ["customer_id"], name: "index_trips_on_customer_id"
+  end
+
+  add_foreign_key "trips", "cabs"
+  add_foreign_key "trips", "customers"
 end

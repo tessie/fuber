@@ -1,5 +1,7 @@
 class Cab < ApplicationRecord
 
+  has_many :trips
+
   validates_presence_of :registration_number, :status, :lat, :long
 
   STATUS = %w(booked available)
