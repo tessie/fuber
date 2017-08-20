@@ -47,7 +47,7 @@ describe TripsController do
         params =  { customer_id: @customer.id, lat: 1, long: 2 }
         post "/trips/#{@trip.id}/end", params: params
         assert_response 200
-        assert_equal JSON.parse(response.body), { 'status' => 'failure', 'message' => 'Sorry.Could mot end trip' }
+        assert_equal JSON.parse(response.body), { 'status' => 'failure', 'message' => 'Sorry.Could not end trip' }
       end
     end
 end

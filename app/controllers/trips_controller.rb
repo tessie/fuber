@@ -18,7 +18,7 @@ class TripsController < ApplicationController
       trip.caculate_and_update_amount
       response = { status: 'success', message: 'Ride End', amount: "#{trip.amount} Dogecoin" }
     else
-      response = { status: 'failure', message: 'Sorry.Could mot end trip' }
+      response = { status: 'failure', message: 'Sorry.Could not end trip' }
     end
     render json: response
   end
