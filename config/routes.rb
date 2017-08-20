@@ -6,9 +6,6 @@ Rails.application.routes.draw do
     collection do
       post 'book-nearest', to: 'cabs#book_nearest'
     end
-    member do
-      post 'book'
-    end
   end
 
   resources :trips, only: [], defaults: { format: :json } do
