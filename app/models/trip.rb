@@ -38,6 +38,7 @@ class Trip < ApplicationRecord
                         ending_long: long,
                         status: 'completed',
                         end_time: Time.now)
+      cab.update_attributes(lat: lat, long: long)
     end
   end
 

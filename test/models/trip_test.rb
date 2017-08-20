@@ -48,6 +48,8 @@ describe Trip do
       @trip.end_trip(1, 2)
       assert @trip.ending_lat, 1
       assert @trip.ending_long, 2
+      assert @trip.cab.lat, @trip.ending_lat
+      assert @trip.cab.long, @trip.ending_long
       assert @trip.end_time.present?
     end
   end
