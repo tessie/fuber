@@ -3,6 +3,10 @@ class Trip < ApplicationRecord
   belongs_to :cab
   belongs_to :customer
 
+  STATUS = %w(scheduled started completed)
+
+  validates_inclusion_of :status, in: STATUS
+
   validate :end_time_after_start_time
 
   def end_time_after_start_time

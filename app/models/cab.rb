@@ -19,7 +19,7 @@ class Cab < ApplicationRecord
   def book(customer_id, lat, long)
     return false unless available?
     update_attribute(:status, 'booked')
-    Trip.create!(cab_id: id, customer_id: customer_id, starting_lat: lat, starting_long: long)
+    Trip.create!(cab_id: id, customer_id: customer_id, starting_lat: lat, starting_long: long, status: 'scheduled')
   end
 
   def self.car_list(color = nil)

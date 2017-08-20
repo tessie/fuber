@@ -4,5 +4,6 @@ FactoryGirl.define do
     starting_long '76.302815'
     association :cab
     association :customer
+    status 'scheduled'
   end
 end

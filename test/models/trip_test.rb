@@ -17,6 +17,11 @@ describe Trip do
     refute @trip.save
   end
 
+  it 'should not save when trip status is other than scheduled started or completed' do
+    @trip.status = 'fail'
+    refute @trip.save
+  end
+
   describe '#test_start_trip' do
     it 'should set starting coordinates and starttime' do
       @trip.start_trip(1, 2)
