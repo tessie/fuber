@@ -7,7 +7,7 @@ class TripsController < ApplicationController
     if trip.start_trip(params[:lat], params[:long])
       response = { status: 'success', message: 'Ride Started' }
     else
-      response = { status: 'success', message: 'Sorry.trip could not be started' }
+      response = { status: 'failure', message: 'Sorry.trip could not be started' }
     end
     render json: response
   end
@@ -18,7 +18,7 @@ class TripsController < ApplicationController
       trip.caculate_and_update_amount
       response = { status: 'success', message: 'Ride End', amount: "#{trip.amount} Dogecoin" }
     else
-      response = { status: 'success', message: 'Sorry.Could mot end trip' }
+      response = { status: 'failure', message: 'Sorry.Could mot end trip' }
     end
     render json: response
   end
@@ -27,7 +27,7 @@ class TripsController < ApplicationController
 
   def check_valid_params
     if params[:lat].nil? || params[:long].nil?
-      render json: { status: 'failure', message: 'Bad Request! Please enter proper params' }
+      render json: { status: 'failure', message: 'Bad Request! Please enter proper params' }, status: 400
     end
   end
 end
