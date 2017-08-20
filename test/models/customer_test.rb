@@ -15,14 +15,4 @@ describe Customer do
     @customer.name = nil
     assert !@customer.save
   end
-
-  it 'should not save customer with blank latitude' do
-    @customer.lat = nil
-    assert !@customer.save
-  end
-
-  it 'should not save customer with blank long' do
-    @customer.long = nil
-    assert !@customer.save
-  end
 end
