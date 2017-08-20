@@ -3,5 +3,33 @@ class Trip < ApplicationRecord
   belongs_to :cab
   belongs_to :customer
 
-  validates_presence_of :starting_lat, :starting_long
+  validate :end_time_after_start_time
+
+  def end_time_after_start_time
+    if (start_time.present? && end_time.present?) && (end_time < start_time)
+      errors.add :end_time, 'must be after start time'
+    end
+  end
+
+  def start_trip(lat, long)
+    update_attributes(starting_lat: lat, starting_long: long, start_time: Time.now)
+  end
+
+  def end_trip(lat, long)
+    update_attributes(ending_lat: lat, ending_long: long, end_time: Time.now)
+  end
+
+  def caculate_and_update_amount
+    fare = fare_calculator
+    update_attribute(:amount, fare)
+  end
+
+  private
+
+  def fare_calculator
+    distance = Math.sqrt((ending_lat - starting_lat)**2 + (ending_long - starting_long)**2)
+    time = (end_time - start_time) / 1.minutes
+    color_fare = cab.color == 'pink' ? 5 : 0
+    (distance * 2 + time * 1 + color_fare).round(2)
+  end
 end
