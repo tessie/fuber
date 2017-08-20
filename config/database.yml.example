@@ -1,0 +1,21 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: fuber_development
+  pool: 5
+  username: fuber
+  password: password1
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: fuber_test
+  pool: 5
+  username: fuber
+  password: password1
+
+
+production:
+  database: fuber_production
+  username: fuber
+  password: <%= ENV['FUBER_DATABASE_PASSWORD'] %>
