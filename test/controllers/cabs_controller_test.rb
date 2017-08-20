@@ -31,9 +31,10 @@ describe CabsController do
         cab = create(:cab, lat: 1, long: 1, status: 'available')
         params = { 'customer_id' => customer.id, 'lat' => 1, 'long' => 1 }
         post '/cabs/book-nearest', params: params
+        trip = Trip.where(customer_id: customer.id, cab_id: cab.id, status: 'scheduled').last
         assert_response 200
         cab.reload
-        assert_equal JSON.parse(response.body), { 'status' => 'success', 'cab' => JSON.parse(cab.to_json), 'message' => 'Booking Success' }
+        assert_equal JSON.parse(response.body), { 'status' => 'success', 'cab' => JSON.parse(cab.to_json), 'trip_id' => trip.id, 'message' => 'Booking Success' }
       end
 
       it 'should  book a pink  cab when a request when color pink is passed' do
@@ -42,9 +43,10 @@ describe CabsController do
         pink_cab = create(:cab, lat: 2, long: 2, status: 'available', registration_number: 'KL53856', color: 'pink')
         params = { 'customer_id' => customer.id, 'lat' => 1, 'long' => 1, color: 'pink' }
         post '/cabs/book-nearest', params: params
+        trip = Trip.where(customer_id: customer.id, cab_id: pink_cab.id, status: 'scheduled').last
         assert_response 200
         pink_cab.reload
-        assert_equal JSON.parse(response.body), { 'status' => 'success', 'cab' => JSON.parse(pink_cab.to_json), 'message' => 'Booking Success' }
+        assert_equal JSON.parse(response.body), { 'status' => 'success', 'cab' => JSON.parse(pink_cab.to_json), 'trip_id' => trip.id, 'message' => 'Booking Success' }
       end
     end
   end

@@ -12,10 +12,13 @@ class CabsController < ApplicationController
     cab = Cab.nearest(params[:loc].to_f, params[:lat].to_f, color)
     if cab.nil?
       response = { status: 'failure', message: 'Sorry no cabs are available' }
-    elsif cab.book(params[:customer_id], params[:loc], params[:lat])
-      response = { status: 'success', cab: cab, message: 'Booking Success' }
     else
-      response = { status: 'failure', message: 'Sorry! Failed to book trip' }
+      trip = cab.book(params[:customer_id], params[:loc], params[:lat])
+      if trip
+        response = { status: 'success', cab: cab, trip_id: trip.id, message: 'Booking Success' }
+      else
+        response = { status: 'failure', message: 'Sorry! Failed to book trip' }
+      end
     end
     render json: response
   end
