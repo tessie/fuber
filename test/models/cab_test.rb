@@ -44,13 +44,15 @@ describe Cab do
   describe '#test_book' do
     it 'should return false when cab is already booked' do
       cab = create(:cab, status: 'booked')
-      refute cab.book
+      refute cab.book(1, 1, 1)
     end
 
     it 'should book when a  cab is available' do
+      customer = create(:customer)
       cab = create(:cab, status: 'available')
-      cab.book
-      assert cab.status, 'available'
+      cab.book(customer.id, 1, 1)
+      assert_equal cab.status, 'booked'
+      assert cab.trips.present?
     end
   end
 

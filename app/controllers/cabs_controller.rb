@@ -1,29 +1,28 @@
 class CabsController < ApplicationController
 
+  before_action :check_valid_params, only: [:book_nearest]
+
   def index
     cabs = Cab.available_cabs
     render json: { status: 'success', cabs: cabs }
   end
 
-  def nearest
-    if params[:long].blank? || params[:lat].blank?
-      response = { status: 'failure', message: 'Please provide your current coordinates' }
+  def book_nearest
+    color = params[:color].blank? ? nil : params[:color].to_s
+    cab = Cab.nearest(params[:loc].to_f, params[:lat].to_f, color)
+    if cab.nil?
+      response = { status: 'failure', message: 'Sorry no cabs are available' }
+    elsif cab.book(params[:customer_id], params[:loc], params[:lat])
+      response = { status: 'success', details: cab, message: 'Booking Success' }
     else
-      color = params[:color].blank? ? nil : params[:color].to_s
-      cab = Cab.nearest(params[:loc].to_f, params[:lat].to_f, color)
-      message = cab.nil? ? 'Sorry! No cabs are available' :  ' '
-      response = { status: 'success', details: cab, message: message }
+      response = { status: 'failure', message: 'Sorry! Failed to book trip' }
     end
     render json: response
   end
 
-  def book
-    @cab = Cab.find_by_id params[:id]
-    if @cab.present? && @cab.book
-      response = { status: 'success', message: 'Booked Successfully', details: @cab }
-    else
-      response = { status: 'failure', message: 'Cab Not Available' }
+  def check_valid_params
+    if params[:lat].nil? || params[:long].nil? || params[:customer_id].nil?
+      render json: { status: 'failure', message: 'Bad Request! Please enter proper params' }
     end
-    render json: response
   end
 end

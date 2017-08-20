@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   resources :cabs, only: :index, defaults: { format: :json } do
     collection do
-      get 'nearest'
+      post 'book-nearest', to: 'cabs#book_nearest'
     end
     member do
       post 'book'
