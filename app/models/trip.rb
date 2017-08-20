@@ -15,12 +15,30 @@ class Trip < ApplicationRecord
     end
   end
 
+  def scheduled?
+    status == 'scheduled'
+  end
+
+  def started?
+    status == 'started'
+  end
+
   def start_trip(lat, long)
-    update_attributes(starting_lat: lat, starting_long: long, start_time: Time.now)
+    if scheduled?
+      update_attributes(starting_lat: lat,
+                        starting_long: long,
+                        start_time: Time.now,
+                        status: 'started')
+    end
   end
 
   def end_trip(lat, long)
-    update_attributes(ending_lat: lat, ending_long: long, end_time: Time.now)
+    if started?
+      update_attributes(ending_lat: lat,
+                        ending_long: long,
+                        status: 'completed',
+                        end_time: Time.now)
+    end
   end
 
   def caculate_and_update_amount

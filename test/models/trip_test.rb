@@ -23,16 +23,28 @@ describe Trip do
   end
 
   describe '#test_start_trip' do
-    it 'should set starting coordinates and starttime' do
+    it 'must fail to start a trip when if a trip status is not scheduled' do
+      @trip.update_attribute(:status, 'started')
+      refute @trip.start_trip(1, 2)
+    end
+
+    it 'should set starting coordinates and starttime and status' do
       @trip.start_trip(1, 2)
       assert @trip.starting_lat, 1
       assert @trip.starting_lat, 2
+      assert_equal @trip.status, 'started'
       assert @trip.start_time.present?
     end
   end
 
   describe '#test_end_trip' do
+    it 'should fail when trip has not started' do
+      @trip.update_attribute(:status, 'scheduled')
+      refute @trip.end_trip(1, 2)
+    end
+
     it 'should set  ending coordinates and endttime' do
+      @trip.update_attribute(:status, 'started')
       @trip.end_trip(1, 2)
       assert @trip.ending_lat, 1
       assert @trip.ending_long, 2
