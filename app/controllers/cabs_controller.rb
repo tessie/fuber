@@ -13,7 +13,7 @@ class CabsController < ApplicationController
     if cab.nil?
       response = { status: 'failure', message: 'Sorry no cabs are available' }
     elsif cab.book(params[:customer_id], params[:loc], params[:lat])
-      response = { status: 'success', details: cab, message: 'Booking Success' }
+      response = { status: 'success', cab: cab, message: 'Booking Success' }
     else
       response = { status: 'failure', message: 'Sorry! Failed to book trip' }
     end
@@ -22,7 +22,7 @@ class CabsController < ApplicationController
 
   def check_valid_params
     if params[:lat].nil? || params[:long].nil? || params[:customer_id].nil?
-      render json: { status: 'failure', message: 'Bad Request! Please enter proper params' }
+      render json: { status: 'failure', message: 'Bad Request! Please enter proper params' }, status: 400
     end
   end
 end
