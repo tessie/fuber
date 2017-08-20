@@ -11,5 +11,10 @@ Cab.create([{ registration_number: 'KL452134', status: 'available', lat: 9.99709
             { registration_number: 'KL451334', status: 'available', lat: 9.998480, long: 9.998480 },
             { registration_number: 'KL452304', status: 'available', lat: 10.057906, long: 76.346362 }])
 
-Customer.create([{ name: 'customer1', lat: 9.970433, long: 76.299137 },
-                 { name: 'customer2', lat: 10.107570, long: 76.345662 }])
+Customer.create([{ name: 'customer1' },
+                 { name: 'customer2' }])
+
+Trip.create([{ cab: Cab.first, customer: Customer.first, status: 'scheduled' },
+             { cab: Cab.last, customer: Customer.last, status: 'started' },
+             { cab:  Cab.last, customer: Customer.first, status: 'completed'}
+  ])
